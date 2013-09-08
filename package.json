@@ -1,7 +1,7 @@
 {
 		"name": "yeoman-include",
 		"description": "Yeoman task to include static templates",
-		"version": "0.1.0",
+		"version": "0.2.1",
 		"homepage": "https://github.com/marmelab/yeoman-include",
 		"author": {
 				"name": "Emmanuel Quentin",
@@ -27,13 +27,15 @@
 		"scripts": {
 				"test": "grunt test"
 		},
+		"dependencies": {
+		    "exec-sync": "~0.1.6"
+		},
 		"devDependencies": {
 				"grunt-contrib-jshint": "~0.6.0",
 				"grunt-contrib-clean": "~0.4.0",
 				"grunt-contrib-nodeunit": "~0.2.0",
 				"grunt-contrib-copy": "~0.4.1",
-				"grunt": "~0.4.1",
-				"exec-sync": "~0.1.6"
+				"grunt": "~0.4.1"
 		},
 		"peerDependencies": {
 				"grunt": "~0.4.1"

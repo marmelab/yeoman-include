@@ -25,18 +25,24 @@ In your project's Gruntfile, add 2 sections named `include` & `include:clean` to
 ```js
 grunt.initConfig({
   include: {
-      myTask: 'test/fixtures/app/*.html'
+      myTask: 'source/*.html'
   },
-
-  // Run others grunt task like uglify
 
   "include:clean": {
-  		myTask: 'test/fixtures/app/*.html'
+      myTask: 'source/*.html'
   },
+
   "include:clean-dest": {
-      myTask: 'test/dest/*.html'
+      myTask: 'dest/*.html'
   },
 })
+
+grunt.registerTask('build', [
+    'include:myTask',
+    // Run task like cssmin, ugligy ...
+    'include:clean:myTask',
+    'include:clean-dest:myTask'
+]);
 ```
 
 ### Usage Examples
@@ -45,23 +51,35 @@ grunt.initConfig({
 
 ```js
 grunt.initConfig({
-  include: {
-      test: 'test/fixtures/app/*.html',
-      tmp: '.tmp/*.html'
-  },
+	  include: {
+	      build: '<%= yeoman.app %>/*.html',
+	      tmp: '.tmp/*.html'
+	  },
 
-  "include:clean": {
-      test: 'test/fixtures/app/*.html',
-      tmp: '.tmp/*.html'
-  },
+	  "include:clean": {
+	      build: '<%= yeoman.app %>/*.html',
+	      tmp: '.tmp/*.html'
+	  },
 
-  "include:clean-dest": {
-      test: 'test/dest/*.html',
-      tmp: '.tmp/*.html'
-  },
+	  "include:clean-dest": {
+	      build: '<%= yeoman.dist %>/*.html',
+	      tmp: '.tmp/*.html'
+	  }
 })
 
-grunt.registerTask('test', ['clean', 'include:test', 'copy', 'include:clean:test', 'include:clean-dest:test']);
+grunt.registerTask('build', [
+    'clean:dist',
+    'include:build',
+    'cssmin',
+    'concat',
+    'uglify',
+    'coffee',
+    'copy:dist',
+    'rev',
+    'usemin',
+    'include:clean:build',
+    'include:clean-dest:build'
+]);
 ```
 
 
@@ -69,5 +87,5 @@ grunt.registerTask('test', ['clean', 'include:test', 'copy', 'include:clean:test
 In lieu of a formal styleguide, take care to maintain the existing coding style. Add unit tests for any new or changed functionality. Lint and test your code using [Grunt](http://gruntjs.com/).
 
 ## Release History
-v0.1 (08/14/2013) : Add simple yeoman include task
-v0.1 (09/08/2013) : Allows multiple tasks (like : include:build, include:tmp)
+- v0.1 (08/14/2013) : Add simple yeoman include task
+- v0.2 (09/08/2013) : Allows multiple task (eg. include:build, include:tmp)

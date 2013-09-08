@@ -91,24 +91,4 @@ module.exports = function(grunt) {
 						grunt.file.write(file, content);
 				}
 		});
-
-		var replaceContent = function(content, fileDir) {
-				var regexp = /<!--\s+\[include:([^\]]+)\]\s+-->/g;
-
-				var placeholders = content.match(regexp);
-				if(!placeholders || !placeholders.length){
-						return content;
-				}
-
-				for(var j = 0, length = placeholders.length; j < length; j++){
-						var placeHolder = placeholders[j];
-						var layoutFile = placeHolder.match(/\[include:([^\]]+)\]/)[1];
-
-						var endPlaceHolder = placeHolder.split('[').join('\\[');
-						var layout = grunt.file.read(fileDir+layoutFile);
-						content = content.split(placeHolder).join(placeHolder+layout+endPlaceHolder);
-				}
-
-				return content;
-		}
 };

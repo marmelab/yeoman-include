@@ -82,6 +82,39 @@ grunt.registerTask('build', [
 ]);
 ```
 
+## Using grunt with server
+
+### Declare connect middleware
+```js
+// Gruntfile.js
+module.exports = function (grunt) {
+    // load all grunt tasks
+    require('matchdep').filterDev('grunt-*').forEach(grunt.loadNpmTasks);
+
+    // configurable paths
+    var yeomanConfig = {
+        app: 'app',
+        dist: 'dist'
+    };
+
+		var includeMiddleware = require('yeoman-include/middleware')(__dirname+'/'+yeomanConfig.app);
+
+		// ...
+
+		connect: {
+				livereload: {
+				    options: {
+				        middleware: function (connect) {
+				            return [
+				                includeMiddleware,
+				                // ...
+				            ];
+				        }
+				    }
+				},
+});
+```
+
 
 ## Contributing
 In lieu of a formal styleguide, take care to maintain the existing coding style. Add unit tests for any new or changed functionality. Lint and test your code using [Grunt](http://gruntjs.com/).

@@ -1,7 +1,7 @@
 {
 		"name": "yeoman-include",
 		"description": "Yeoman task to include static templates",
-		"version": "0.2.1",
+		"version": "0.2.2",
 		"homepage": "https://github.com/marmelab/yeoman-include",
 		"author": {
 				"name": "Emmanuel Quentin",

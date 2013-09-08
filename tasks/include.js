@@ -8,36 +8,25 @@
 
 'use strict';
 
-var fs      = require('fs');
 var execSync = require('exec-sync');
+var replaceContent = require('./../replaceContent.js');
 
 module.exports = function(grunt) {
 
-		grunt.registerMultiTask('include', 'Layout templating', function(){
-				var regexp = /<!--\s+\[include:([^\]]+)\]\s+-->/g;
+		var self = this;
 
+		grunt.registerMultiTask('include', 'Layout templating', function(){
 				var files = execSync('ls '+this.data).split("\n");
 
 				for(var i = 0, nbFiles = files.length; i < nbFiles; i++){
 						var file = files[i];
 						var content = grunt.file.read(file);
+
 						var fileData = file.split('/');
 						fileData.pop();
 						var fileDir = fileData.join('/')+'/';
 
-						var placeholders = content.match(regexp);
-						if(!placeholders || !placeholders.length){
-								return;
-						}
-
-						for(var j = 0, length = placeholders.length; j < length; j++){
-								var placeHolder = placeholders[j];
-								var layoutFile = placeHolder.match(/\[include:([^\]]+)\]/)[1];
-
-								var endPlaceHolder = placeHolder.split('[').join('\\[');
-								var layout = grunt.file.read(fileDir+layoutFile);
-								content = content.split(placeHolder).join(placeHolder+layout+endPlaceHolder);
-						}
+						content = replaceContent(content, fileDir);
 
 						grunt.file.write(file, content);
 				}
@@ -102,4 +91,24 @@ module.exports = function(grunt) {
 						grunt.file.write(file, content);
 				}
 		});
+
+		var replaceContent = function(content, fileDir) {
+				var regexp = /<!--\s+\[include:([^\]]+)\]\s+-->/g;
+
+				var placeholders = content.match(regexp);
+				if(!placeholders || !placeholders.length){
+						return content;
+				}
+
+				for(var j = 0, length = placeholders.length; j < length; j++){
+						var placeHolder = placeholders[j];
+						var layoutFile = placeHolder.match(/\[include:([^\]]+)\]/)[1];
+
+						var endPlaceHolder = placeHolder.split('[').join('\\[');
+						var layout = grunt.file.read(fileDir+layoutFile);
+						content = content.split(placeHolder).join(placeHolder+layout+endPlaceHolder);
+				}
+
+				return content;
+		}
 };

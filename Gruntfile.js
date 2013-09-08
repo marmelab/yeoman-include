@@ -41,15 +41,15 @@ module.exports = function(grunt) {
 
 				// Configuration to be run (and then tested).
 				include: {
-						"test/dest": 'test/fixtures/app/*.html'
+						test: 'test/fixtures/app/*.html'
 				},
 
 				"include:clean": {
-						"app": 'test/fixtures/app/*.html'
+						test: 'test/fixtures/app/*.html'
 				},
 
 				"include:clean-dest": {
-						"dest": 'test/dest/*.html'
+						test: 'test/dest/*.html'
 				},
 
 				// Unit tests.
@@ -69,7 +69,7 @@ module.exports = function(grunt) {
 
 		// Whenever the "test" task is run, first clean the "dest" dir, then run this
 		// plugin's task(s), then test the result.
-		grunt.registerTask('test', ['clean', 'include', 'copy', 'include:clean', 'include:clean-dest', 'nodeunit']);
+		grunt.registerTask('test', ['clean', 'include:test', 'copy', 'include:clean:test', 'include:clean-dest:test', 'nodeunit']);
 
 		// By default, lint and run all tests.
 		grunt.registerTask('default', ['jshint', 'test']);

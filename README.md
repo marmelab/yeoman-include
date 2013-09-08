@@ -25,16 +25,16 @@ In your project's Gruntfile, add 2 sections named `include` & `include:clean` to
 ```js
 grunt.initConfig({
   include: {
-      "destinationFolder": 'source/*.html'
+      myTask: 'test/fixtures/app/*.html'
   },
 
   // Run others grunt task like uglify
 
   "include:clean": {
-      "app": 'source/*.html'
+  		myTask: 'test/fixtures/app/*.html'
   },
   "include:clean-dest": {
-      "dest": 'destinationFolder/*.html'
+      myTask: 'test/dest/*.html'
   },
 })
 ```
@@ -46,15 +46,22 @@ grunt.initConfig({
 ```js
 grunt.initConfig({
   include: {
-      "test/dest": 'test/fixtures/app/*.html'
+      test: 'test/fixtures/app/*.html',
+      tmp: '.tmp/*.html'
   },
+
   "include:clean": {
-      "app": 'test/fixtures/app/*.html'
+      test: 'test/fixtures/app/*.html',
+      tmp: '.tmp/*.html'
   },
+
   "include:clean-dest": {
-      "dest": 'test/dest/*.html'
+      test: 'test/dest/*.html',
+      tmp: '.tmp/*.html'
   },
 })
+
+grunt.registerTask('test', ['clean', 'include:test', 'copy', 'include:clean:test', 'include:clean-dest:test']);
 ```
 
 
@@ -63,3 +70,4 @@ In lieu of a formal styleguide, take care to maintain the existing coding style.
 
 ## Release History
 v0.1 (08/14/2013) : Add simple yeoman include task
+v0.1 (09/08/2013) : Allows multiple tasks (like : include:build, include:tmp)

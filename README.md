@@ -122,3 +122,4 @@ In lieu of a formal styleguide, take care to maintain the existing coding style.
 ## Release History
 - v0.1 (08/14/2013) : Add simple yeoman include task
 - v0.2 (09/08/2013) : Allows multiple task (eg. include:build, include:tmp)
+- v0.3 (01/02/2014) : Use grunt.file.expand to be crossplatform
